@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; margin: 20px; }
+#city-search { margin-bottom: 12px; }
+.city-card { border: 1px solid #ddd; padding: 8px; margin-bottom: 6px; width: 260px; }
+#alert-modal.hidden { display: none; }
+#alert-modal { margin-top: 12px; border: 1px solid #eee; padding: 8px; width: 320px; background: #fafafa; }
+#notifications { margin-top: 12px; color: #c00; }
