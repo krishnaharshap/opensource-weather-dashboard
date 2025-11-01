@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OpenSource Weather Dashboard - Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>OpenSource Weather Dashboard (Demo)</h1>
+  </header>
+
+  <main>
+    <section id="city-search">
+      <input data-cy="city-search-input" id="city-input" placeholder="Enter city name" />
+      <button data-cy="city-search-submit" id="city-add-btn">Add City</button>
+    </section>
+
+    <section id="dashboard">
+      <h2>Your Cities</h2>
+      <div id="city-cards" data-cy="city-cards"></div>
+    </section>
+
+    <section id="alerts">
+      <h2>Alerts</h2>
+      <button data-cy="create-alert-btn" id="open-alert-modal">Create Alert</button>
+
+      <div id="alert-modal" class="hidden">
+        <label>
+          Name
+          <input data-cy="alert-name" id="alert-name" />
+        </label>
+        <label>
+          City
+          <input data-cy="alert-city" id="alert-city" />
+        </label>
+        <label>
+          Threshold
+          <input data-cy="alert-threshold" id="alert-threshold" type="number" />
+        </label>
+        <button data-cy="alert-save" id="save-alert">Save</button>
+        <button id="close-alert">Close</button>
+      </div>
+
+      <div id="notifications" data-cy="notifications"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

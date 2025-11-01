@@ -1,0 +1,12 @@
+{
+  "latitude": 17.3850,
+  "longitude": 78.4867,
+  "generationtime_ms": 1.234,
+  "utc_offset_seconds": 19800,
+  "hourly": {
+    "time": ["2025-11-01T06:00:00Z", "2025-11-01T07:00:00Z"],
+    "temperature_2m": [31.2, 32.0],
+    "windspeed_10m": [3.2, 3.8],
+    "relativehumidity_2m": [45, 42]
+  }
+}

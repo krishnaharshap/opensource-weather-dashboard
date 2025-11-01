@@ -1,0 +1,8 @@
+{
+  "coord": { "lon": -114.0719, "lat": 51.0447 },
+  "weather": [{ "id": 802, "main": "Clouds", "description": "scattered clouds", "icon": "03d" }],
+  "main": { "temp": 283.15, "feels_like": 281.5, "temp_min": 282.15, "temp_max": 284.15, "pressure": 1015, "humidity": 55 },
+  "wind": { "speed": 1.5, "deg": 220 },
+  "name": "Calgary",
+  "sys": { "country": "CA" }
+}

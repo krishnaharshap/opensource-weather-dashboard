@@ -1,0 +1,20 @@
+[
+  {
+    "id": "hyderabad",
+    "name": "Hyderabad",
+    "country": "IN",
+    "lat": 17.3850,
+    "lon": 78.4867,
+    "openweatherFixture": "weather-openweather-hyderabad.json",
+    "openMeteoFixture": "weather-open-meteo-hyderabad.json"
+  },
+  {
+    "id": "calgary",
+    "name": "Calgary",
+    "country": "CA",
+    "lat": 51.0447,
+    "lon": -114.0719,
+    "openweatherFixture": "weather-openweather-calgary.json",
+    "openMeteoFixture": "weather-open-meteo-calgary.json"
+  }
+]

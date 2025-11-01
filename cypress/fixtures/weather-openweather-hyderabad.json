@@ -1,0 +1,8 @@
+{
+  "coord": { "lon": 78.4867, "lat": 17.3850 },
+  "weather": [{ "id": 800, "main": "Clear", "description": "clear sky", "icon": "01d" }],
+  "main": { "temp": 305.15, "feels_like": 307.2, "temp_min": 305.15, "temp_max": 305.15, "pressure": 1008, "humidity": 40 },
+  "wind": { "speed": 3.6, "deg": 110 },
+  "name": "Hyderabad",
+  "sys": { "country": "IN" }
+}

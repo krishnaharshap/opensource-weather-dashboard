@@ -1,0 +1,59 @@
+# .gitignore (suggested for opensource-weather-dashboard)
+# Purpose: ignore IDE files, Node modules, Cypress artifacts, environment secrets, OS files, logs, build artifacts, and any Java/Maven artifacts if present.
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+reports/
+mochawesome-report/
+mochawesome-report-*.json
+coverage/
+
+# Local Cypress config / local environment overrides
+cypress.env.json
+.env
+.env.local
+.env.*.local
+.env.example
+
+# Mock server / temp DB
+db.json
+
+# VSCode
+.vscode/
+.vscode/*
+
+# JetBrains IDEs (IntelliJ/WebStorm)
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Misc
+*.local
+*.tmp
+*.temp
+pom.xml
+
+# Scripts / Generated node binaries
+dist/
+build/
+out/
+
+# GitHub Actions artifacts
+.github/workflows/*.local
+.github/actions/*/dist
+framework-runbook.md
