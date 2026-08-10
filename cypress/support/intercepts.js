@@ -42,4 +42,3 @@ Cypress.Commands.add("registerIntercepts", () => {
 Cypress.Commands.add("autoRegisterIntercepts", () => {
   cy.registerIntercepts();
 });
-cy.autoRegisterIntercepts();
