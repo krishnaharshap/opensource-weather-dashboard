@@ -52,7 +52,6 @@ This repository contains:
   - Endpoints: /api/auth/login, /api/alerts, /api/testing/clear, /api/users/:id/cities, etc.
 - Minimal demo frontend (app/) with stable data-cy selectors to run end-to-end locally without a real app.
 - cypress/support with intercepts/commands to centralize test helpers and stub patterns.
-- docs/ with setup, troubleshooting, and QA best practice guides.
 
 ## Project structure (expected)
 - package.json
@@ -80,10 +79,6 @@ This repository contains:
   - index.html
   - app.js
   - styles.css
-- docs/
-  - npm-install-troubleshooting-and-best-practices.md
-  - frontend-and-cypress-local-run.md
-  - using-public-apis-and-keys.md
 - .env.example
 - .gitignore
 - README.md (this file)
@@ -97,7 +92,7 @@ This repository contains:
 
 2. From project root:
    - npm install --legacy-peer-deps
-     - (first-run: use --legacy-peer-deps to bypass plugin peer conflicts; see docs/npm-install-troubleshooting-and-best-practices.md for details)
+     - (first-run: use --legacy-peer-deps to bypass plugin peer conflicts)
    - npm run start:mock
      - Starts the mock backend at http://localhost:4000/api
    - Start demo frontend:
