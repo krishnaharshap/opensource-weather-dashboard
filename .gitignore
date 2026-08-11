@@ -21,6 +21,15 @@ cypress.env.json
 .env
 .env.local
 .env.*.local
+.env.*
+!.env.example
+
+# Other secret-shaped files, just in case
+*.pem
+*.key
+.npmrc
+secrets.json
+credentials.json
 
 # Mock server / temp DB
 db.json
