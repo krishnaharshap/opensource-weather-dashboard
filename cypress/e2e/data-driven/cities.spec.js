@@ -37,16 +37,18 @@ describe('Data-driven: Add city and verify UI + backend persistence (Hyderabad, 
           req.reply({ fixture: city.openMeteoFixture });
         }).as('openMeteoDynamic');
 
+        // Register the backend add-city intercept before triggering the UI
+        // action, so it's guaranteed to be in place when the request fires.
+        cy.intercept('POST', '/api/users/*/cities').as('addCityDynamic');
+
         // Use the UI to add the city (adjust selectors if your app differs)
         cy.get('[data-cy=city-search-input]').clear().type(city.name);
         cy.get('[data-cy=city-search-submit]').click();
 
-        // Wait for the external API call and assert it occurred
+        // Wait for both external API calls and assert they occurred
         cy.wait('@openWeatherDynamic').its('response.statusCode').should('eq', 200);
+        cy.wait('@openMeteoDynamic').its('response.statusCode').should('eq', 200);
 
-        // Wait for the backend add city POST (alias registered as addCity in support/intercepts.js)
-        // If you used a different alias, update accordingly
-        cy.intercept('POST', '/api/users/*/cities').as('addCityDynamic');
         cy.wait('@addCityDynamic').then((interception) => {
           expect(interception.response.statusCode).to.be.oneOf([200, 201]);
           // verify backend payload contains city name or lat/lon mapping

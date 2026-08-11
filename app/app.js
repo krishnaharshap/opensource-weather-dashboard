@@ -38,39 +38,44 @@ const cityInput = document.getElementById('city-input');
 const addBtn = document.getElementById('city-add-btn');
 const cardsContainer = document.getElementById('city-cards');
 
-function createCityCard(cityName, tempText) {
-  const id = cityName.replace(/\s+/g, '-');
+function createCityCard(cityName, tempText, windText) {
   const wrapper = document.createElement('div');
   wrapper.className = 'city-card';
   wrapper.setAttribute('data-cy', `city-card-${cityName}`);
   wrapper.innerHTML = `
     <h3>${cityName}</h3>
     <div data-cy="temp">${tempText || '-'}</div>
+    <div data-cy="wind">${windText || '-'}</div>
     <button data-action="remove" data-city="${cityName}">Remove</button>
   `;
   return wrapper;
 }
 
 async function addCity(cityName) {
-  // Simulate calling external weather API - Cypress intercept will usually stub it.
-  // For demo simply show placeholder temp and call backend POST
+  // Cypress intercepts stub both of these in tests. Real calls only happen
+  // when running the demo standalone against the live APIs.
   const weatherResp = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}`)
     .then(r => r.json())
     .catch(() => ({}));
 
+  const meteoResp = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${weatherResp.coord && weatherResp.coord.lat || 0}&longitude=${weatherResp.coord && weatherResp.coord.lon || 0}&hourly=temperature_2m,windspeed_10m`)
+    .then(r => r.json())
+    .catch(() => ({}));
+
   const temp = (weatherResp && weatherResp.main && Math.round(weatherResp.main.temp - 273.15)) || 'N/A';
+  const wind = (meteoResp && meteoResp.hourly && meteoResp.hourly.windspeed_10m && meteoResp.hourly.windspeed_10m[0]) || 'N/A';
 
   // POST to backend to persist
   await fetch(apiBase + '/users/demo-user/cities', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${window.localStorage.getItem(authTokenKey) || ''}` },
-    body: JSON.stringify({ name: cityName, temp, lat: weatherResp.coord && weatherResp.coord.lat, lon: weatherResp.coord && weatherResp.coord.lon })
+    body: JSON.stringify({ name: cityName, temp, wind, lat: weatherResp.coord && weatherResp.coord.lat, lon: weatherResp.coord && weatherResp.coord.lon })
   }).catch(() => null);
 
   // render card
   const existing = document.querySelector(`[data-cy="city-card-${cityName}"]`);
   if (!existing) {
-    const card = createCityCard(cityName, `${temp}°C`);
+    const card = createCityCard(cityName, `${temp}°C`, `${wind} km/h wind`);
     cardsContainer.appendChild(card);
   }
 }
@@ -134,7 +139,7 @@ saveAlertBtn.addEventListener('click', async () => {
   const cities = await fetch(apiBase + '/users/demo-user/cities').then(r => r.json()).catch(() => []);
   if (Array.isArray(cities)) {
     cities.forEach(c => {
-      const card = createCityCard(c.name, c.temp ? `${c.temp}°C` : '-');
+      const card = createCityCard(c.name, c.temp ? `${c.temp}°C` : '-', c.wind ? `${c.wind} km/h wind` : '-');
       cardsContainer.appendChild(card);
     });
   }

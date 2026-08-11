@@ -4,9 +4,12 @@
     cy.visit("/");
     cy.initApp();
     cy.apiLogin();
+    cy.injectAxe();
   });
 
   it("creates an alert via UI, intercepts POST /api/alerts and verifies persistence via GET /api/alerts", () => {
+    cy.checkA11y();
+
     cy.get("[data-cy=create-alert-btn]").click();
     cy.get("[data-cy=alert-name]").type("HighTempLondon");
     cy.get("[data-cy=alert-city]").type("London");
