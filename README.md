@@ -151,10 +151,11 @@ Tests & examples (what's covered)
   - UI: open alert modal, enter name/city/threshold, click Save
   - Intercepts: cy.intercept('POST', '/api/alerts') returns id
   - Validation: cy.wait('@createAlert') -> inspect response body -> cy.request GET /api/alerts to verify persistence
+  - Accessibility: cy.injectAxe() + cy.checkA11y() run against the page before the flow starts
 - data-driven/cities.spec.js
   - Loads cities.json fixture with Hyderabad and Calgary and iterates:
-    - Adds city via UI, intercepts external API (OpenWeatherMap/Open-Meteo) and stubs with city-specific fixture
-    - Asserts external API call happened and backend persisted the city
+    - Adds city via UI, intercepts both external APIs (OpenWeatherMap and Open-Meteo) and stubs each with a city-specific fixture
+    - Waits on both API calls and asserts they happened, then asserts backend persisted the city
     - Validates UI card content
 
 Data-driven testing approach
@@ -197,18 +198,12 @@ Mocks, fixtures & deterministic testing
   - Pull requests: run fast smoke suite that uses mockExternalApis=true (deterministic)
   - Nightly: run full integration suite that calls real external APIs (uses secrets for keys)
 
-## Visual regression & accessibility (extensions)
-- Visual regression (local & CI):
-  - Option A: cypress-image-snapshot (requires a version compatible with your Cypress version)
-  - Option B: Percy (@percy/cypress) — hosted (free tier available) and easy to integrate for team review
-  - Recommendation: add visual tests for key UI components (dashboard, alert modal), keep snapshots for controlled viewports, and review diffs via CI PRs.
-- Accessibility:
-  - Integrate cypress-axe with assertions in critical flows:
-    - cy.injectAxe(); cy.checkA11y();
-  - Run a11y checks as part of smoke tests for each PR.
+## Visual regression & accessibility
+- Accessibility: cypress-axe is already wired in. create-alert.spec.js calls cy.injectAxe() in beforeEach and cy.checkA11y() at the start of the test. Add the same pattern to other specs as you add flows.
+- Visual regression: not set up yet. If you want it later, Percy (@percy/cypress) is a hosted option with an easy Cypress plugin and a free tier. Add visual checks for key screens (dashboard, alert modal) and review diffs in CI.
 
 ## Release / contribution guidelines (open-source) - TODO
-- LICENSE: Add an open license (MIT recommended for demonstration repos). Include a LICENSE file at repo root before making public.
+- LICENSE: added (MIT), see the LICENSE file at repo root.
 - CONTRIBUTING.md:
   - How to run tests locally
   - Branching model & commit message conventions
@@ -226,6 +221,7 @@ Repository housekeeping & best practices
   - Avoid test inter-dependency — each test should prepare its own preconditions via API where possible.
 - Use stable selectors:
   - data-cy attributes are recommended (used in demo).
+- Register cy.intercept() before the action that triggers the request, not after. Registering it late can miss the request entirely and make the test flaky. We hit this exact bug in cities.spec.js and fixed it.
 - Test grouping:
   - Fast smoke tests (run on PRs)
   - Full integration tests (nightly)
@@ -244,7 +240,7 @@ Branch strategy
 - External API 401: verify OPENWEATHER_KEY in env and that it has not exceeded rate limits.
 
 License
-TBD
+MIT, see LICENSE.
 
 Notes:
 - This repository is intentionally structured to be a reproducible, demonstrable E2E framework that emphasizes:
@@ -254,7 +250,7 @@ Notes:
   - a migration path to integration and visual testing.
 
 Next Steps:
-- Provide a ready LICENSE (MIT) and CONTRIBUTING.md template.
+- Add a CONTRIBUTING.md template.
 - Add GitHub Actions workflow files for PR smoke tests (mocked) and nightly integration tests.
 - Sanitize repo for public release (ensure no secrets committed) and prepare a one-click setup guide for new contributors.
 
