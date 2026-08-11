@@ -1,7 +1,9 @@
 // Minimal demo frontend logic to work with the mock backend (json-server) at /api
 // This is only for local demo / testing and intentionally simple.
 
-const apiBase = (window.__env && window.__env.API_BASE_URL) || '/api';
+// Falls back to the documented default mock backend URL, since this static
+// demo page has no build step to inject window.__env from API_BASE_URL.
+const apiBase = (window.__env && window.__env.API_BASE_URL) || 'http://localhost:4000/api';
 const authTokenKey = 'authToken';
 
 // Simple helpers

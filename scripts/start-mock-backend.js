@@ -24,6 +24,24 @@ server.post("/api/alerts", (req, res) => {
   res.status(201).jsonp(alert);
 });
 
+server.get("/api/users/:id/cities", (req, res) => {
+  const user = router.db.get("users").find({ id: req.params.id }).value();
+  if (!user) {
+    return res.status(404).jsonp({ error: "User not found" });
+  }
+  res.jsonp(user.cities || []);
+});
+
+server.post("/api/users/:id/cities", (req, res) => {
+  const user = router.db.get("users").find({ id: req.params.id }).value();
+  if (!user) {
+    return res.status(404).jsonp({ error: "User not found" });
+  }
+  const city = { id: `city-${Date.now()}`, ...req.body };
+  router.db.get("users").find({ id: req.params.id }).get("cities").push(city).write();
+  res.status(201).jsonp(city);
+});
+
 server.post("/api/testing/clear", (req, res) => {
   router.db.set("alerts", []).write();
   router.db.get("users").forEach(u => u.cities = []).write();
